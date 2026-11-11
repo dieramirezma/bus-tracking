@@ -4,16 +4,22 @@ services:
     name: bus-tracking-api
     runtime: node
     plan: free
+    # La región no se puede cambiar tras crear el servicio; virginia sería la más cercana a Bogotá.
     region: oregon
     buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm turbo run build --filter=@bus/api
     startCommand: node apps/api/dist/server.js
     healthCheckPath: /health
-    autoDeploy: true
+    autoDeployTrigger: commit
+    # Solo se redespliega si cambia algo que afecta al API (las rutas son relativas a la raíz del repo).
     buildFilter:
       paths:
         - apps/api/**
         - packages/shared/**
+        - package.json
         - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - turbo.json
+        - tsconfig.base.json
     envVars:
       - key: NODE_VERSION
         value: "22"
@@ -21,11 +27,14 @@ services:
         value: https://gtfs.transmilenio.gov.co
       - key: POLL_INTERVAL_MS
         value: "30000"
-      # Render pone un proxy delante: sin esto el rate limit agruparía a todos los clientes en una sola IP.
-      # "true" permite que un cliente falsee X-Forwarded-For para saltarse el límite (riesgo bajo: /vehicles
-      # sirve un snapshot en memoria). Tras desplegar, endurecerlo con el número de saltos (ver README).
+      # Render tiene Cloudflare delante, que sobrescribe CF-Connecting-IP con la IP real del visitante:
+      # el rate limit usa ese header, así que X-Forwarded-For falsos no sirven para saltárselo.
+      - key: CLIENT_IP_HEADER
+        value: cf-connecting-ip
+      # Respaldo si CF-Connecting-IP no llega: sin confiar en el proxy, todos los clientes compartirían
+      # la IP del balanceador de Render. También hace que los logs muestren la IP del cliente.
       - key: TRUST_PROXY
         value: "true"
-      # Ajustar al nombre real del proyecto de Cloudflare Pages (incluye previews *.proyecto.pages.dev).
+      # Web en el dominio propio y en Cloudflare Pages (incluye las URLs de preview *.bus-tracking-1e8.pages.dev).
       - key: CORS_ORIGIN
-        value: "http://localhost:3000,/^https:\\/\\/([a-z0-9-]+\\.)?bus-tracking\\.pages\\.dev$/"
+        value: 'http://localhost:3000,https://bus-tracking.dieramirezma.dev,/^https:\/\/([a-z0-9-]+\.)?bus-tracking-1e8\.pages\.dev$/'
