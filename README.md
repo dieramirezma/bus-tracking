@@ -2,6 +2,8 @@
 
 Mapa en vivo de los buses **troncales y duales** de TransMilenio (Bogotá), con sus trazados y estaciones, a partir de los datos abiertos GTFS / GTFS Realtime que publica TRANSMILENIO S.A.
 
+**En vivo:** [bus-tracking.dieramirezma.dev](https://bus-tracking.dieramirezma.dev) · API: [`/health`](https://bus-tracking-api-o6pd.onrender.com/health)
+
 | Capa     | Tecnología                                                  |
 | -------- | ----------------------------------------------------------- |
 | Frontend | Next.js 16 (`output: "export"`) en Cloudflare Pages         |
@@ -56,23 +58,31 @@ Otros comandos: `pnpm test`, `pnpm typecheck`, `pnpm build`, `pnpm format`.
 
 ### API en Render
 
-1. New → Blueprint → seleccionar este repo (usa `render.yaml`).
-2. Ajustar `CORS_ORIGIN` con la URL real de Cloudflare Pages (admite regex entre barras para los previews).
-3. Plan free: el servicio se duerme tras 15 min sin tráfico; el primer acceso tarda ~1 min y la web muestra "Despertando el servidor…".
-4. `TRUST_PROXY` arranca en `true` para que el rate limit (120 req/min por IP) vea la IP del cliente detrás del proxy de Render. Eso permite falsear `X-Forwarded-For`; para endurecerlo, prueba `TRUST_PROXY=1` (y luego `2`) y revisa en los logs de Render el campo `remoteAddress` de cada request: usa el menor número de saltos con el que aparezca tu IP pública real y no la de un proxy.
+Desplegado en `https://bus-tracking-api-o6pd.onrender.com` desde el Blueprint (`render.yaml`): New → Blueprint → seleccionar este repo. Las variables viven en `render.yaml`; si se editan en el dashboard, la siguiente sincronización del Blueprint las sobrescribe.
+
+| Variable           | Valor en producción                                                                             |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| `CORS_ORIGIN`      | dominio propio + `*.bus-tracking-1e8.pages.dev` (regex entre barras) + `localhost:3000`         |
+| `CLIENT_IP_HEADER` | `cf-connecting-ip`: clave del rate limit (120 req/min por cliente)                              |
+| `TRUST_PROXY`      | `true`: respaldo si no llega `CF-Connecting-IP`, y para que los logs muestren la IP del cliente |
+
+- Render tiene Cloudflare delante (respuestas con `Server: cloudflare` y `CF-RAY`). Cloudflare sobrescribe `CF-Connecting-IP` con la IP real del visitante, así que un `X-Forwarded-For` falso no sirve para saltarse el rate limit. Si Render dejara de usar Cloudflare, hay que vaciar `CLIENT_IP_HEADER`.
+- Plan free: el servicio se duerme tras 15 min sin tráfico; el primer acceso tarda ~1 min y la web muestra "Despertando el servidor…".
 
 ### Web en Cloudflare Pages
 
-- Framework preset: _None_. Root directory: `/` (raíz del repo).
+Proyecto `bus-tracking-1e8` (`https://bus-tracking-1e8.pages.dev`).
+
+- Framework preset: _None_. Root directory: `/` (raíz del repo; con `apps/web` no encuentra el workspace).
 - Build command: `pnpm turbo run build --filter=@bus/web`
-- Output directory: `apps/web/out`
-- Variables: `NODE_VERSION=22`, `NEXT_PUBLIC_API_URL=https://<servicio>.onrender.com`
+- Build output directory: `apps/web/out`
+- Variables: `NODE_VERSION=22`, `NEXT_PUBLIC_API_URL=https://bus-tracking-api-o6pd.onrender.com`. La URL del API se incrusta al compilar: si cambia, hay que volver a desplegar.
 
-### Dominio en Cloudflare DNS (cuando exista)
+### Dominio en Cloudflare DNS
 
-1. Pages → Custom domains → `app.<dominio>` (Cloudflare crea el registro).
-2. Render → Settings → Custom domain `api.<dominio>`; en Cloudflare crear `CNAME api → <servicio>.onrender.com` en modo **DNS only** (nube gris) hasta que Render emita el certificado; luego se puede activar el proxy con SSL "Full (strict)".
-3. Actualizar `CORS_ORIGIN` en Render y `NEXT_PUBLIC_API_URL` en Pages.
+- Web: `bus-tracking.dieramirezma.dev` como _Custom domain_ del proyecto de Pages.
+- Si se cambia o agrega un dominio, añadirlo a `CORS_ORIGIN` en `render.yaml`.
+- Opcional, API con dominio propio: Render → Settings → Custom domain `api.<dominio>`; en Cloudflare crear `CNAME api → bus-tracking-api-o6pd.onrender.com` en modo **DNS only** (nube gris) hasta que Render emita el certificado. Después actualizar `NEXT_PUBLIC_API_URL` en Pages y redesplegar.
 
 ### Refresco diario de datos
 
