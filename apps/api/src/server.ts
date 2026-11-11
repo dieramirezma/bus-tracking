@@ -5,7 +5,7 @@ import rateLimit from "@fastify/rate-limit";
 import { config } from "./config.js";
 import { Poller } from "./poller.js";
 
-const app = Fastify({ logger: true });
+const app = Fastify({ logger: true, trustProxy: config.trustProxy });
 await app.register(compress, { global: true });
 await app.register(cors, { origin: config.corsOrigins, methods: ["GET"] });
 await app.register(rateLimit, { max: 120, timeWindow: "1 minute" });

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
-import { parseOrigins } from "../src/config.js";
+import { parseOrigins, parseTrustProxy } from "../src/config.js";
 import { bearingBetween, decodeVehicles } from "../src/poller.js";
 import routesData from "../data/routes.json" with { type: "json" };
 
@@ -56,6 +56,17 @@ describe("bearingBetween", () => {
   it("norte ≈ 0° y este ≈ 90°", () => {
     expect(Math.round(bearingBetween(4, -74, 4.01, -74))).toBe(0);
     expect(Math.round(bearingBetween(4, -74, 4, -73.99))).toBe(90);
+  });
+});
+
+describe("parseTrustProxy", () => {
+  it("interpreta vacío, booleanos, saltos y listas", () => {
+    expect(parseTrustProxy(undefined)).toBe(false);
+    expect(parseTrustProxy("false")).toBe(false);
+    expect(parseTrustProxy("true")).toBe(true);
+    const twoHops = parseTrustProxy("2") as (a: string, hop: number) => boolean;
+    expect([0, 1, 2].map((hop) => twoHops("10.0.0.1", hop))).toEqual([true, true, false]);
+    expect(parseTrustProxy("10.0.0.0/8, 127.0.0.1")).toEqual(["10.0.0.0/8", "127.0.0.1"]);
   });
 });
 

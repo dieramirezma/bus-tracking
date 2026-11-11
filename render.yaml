@@ -21,6 +21,9 @@ services:
         value: https://gtfs.transmilenio.gov.co
       - key: POLL_INTERVAL_MS
         value: "30000"
+      # Render pone un proxy delante: sin esto el rate limit agruparía a todos los clientes en una sola IP.
+      - key: TRUST_PROXY
+        value: "true"
       # Ajustar al nombre real del proyecto de Cloudflare Pages (incluye previews *.proyecto.pages.dev).
       - key: CORS_ORIGIN
         value: "http://localhost:3000,/^https:\\/\\/([a-z0-9-]+\\.)?bus-tracking\\.pages\\.dev$/"
