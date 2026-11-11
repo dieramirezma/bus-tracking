@@ -1,0 +1,41 @@
+name: Refresh GTFS data
+
+# TransMilenio regenera GTFS.zip a diario (~04:20 America/Bogota). Si cambian las rutas
+# troncales, trazados o estaciones, se hace commit y Render/Cloudflare Pages redesplegan solos.
+on:
+  schedule:
+    - cron: "0 10 * * *" # 05:00 America/Bogota
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-gtfs
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build trunk data from GTFS.zip
+        run: pnpm --filter @bus/gtfs build:data
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- apps/api/data apps/web/public/data; then
+            echo "Sin cambios en los datos."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/api/data apps/web/public/data
+          git commit -m "chore(data): refresh GTFS trunk data $(date -u +%F)"
+          git push

@@ -1,0 +1,26 @@
+# Blueprint de Render para el API (https://render.com/docs/blueprint-spec)
+services:
+  - type: web
+    name: bus-tracking-api
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm turbo run build --filter=@bus/api
+    startCommand: node apps/api/dist/server.js
+    healthCheckPath: /health
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/api/**
+        - packages/shared/**
+        - pnpm-lock.yaml
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: TRANSMI_RT_BASE
+        value: https://gtfs.transmilenio.gov.co
+      - key: POLL_INTERVAL_MS
+        value: "30000"
+      # Ajustar al nombre real del proyecto de Cloudflare Pages (incluye previews *.proyecto.pages.dev).
+      - key: CORS_ORIGIN
+        value: "http://localhost:3000,/^https:\\/\\/([a-z0-9-]+\\.)?bus-tracking\\.pages\\.dev$/"
