@@ -59,6 +59,7 @@ Otros comandos: `pnpm test`, `pnpm typecheck`, `pnpm build`, `pnpm format`.
 1. New → Blueprint → seleccionar este repo (usa `render.yaml`).
 2. Ajustar `CORS_ORIGIN` con la URL real de Cloudflare Pages (admite regex entre barras para los previews).
 3. Plan free: el servicio se duerme tras 15 min sin tráfico; el primer acceso tarda ~1 min y la web muestra "Despertando el servidor…".
+4. `TRUST_PROXY` arranca en `true` para que el rate limit (120 req/min por IP) vea la IP del cliente detrás del proxy de Render. Eso permite falsear `X-Forwarded-For`; para endurecerlo, prueba `TRUST_PROXY=1` (y luego `2`) y revisa en los logs de Render el campo `remoteAddress` de cada request: usa el menor número de saltos con el que aparezca tu IP pública real y no la de un proxy.
 
 ### Web en Cloudflare Pages
 

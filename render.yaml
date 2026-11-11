@@ -22,6 +22,8 @@ services:
       - key: POLL_INTERVAL_MS
         value: "30000"
       # Render pone un proxy delante: sin esto el rate limit agruparía a todos los clientes en una sola IP.
+      # "true" permite que un cliente falsee X-Forwarded-For para saltarse el límite (riesgo bajo: /vehicles
+      # sirve un snapshot en memoria). Tras desplegar, endurecerlo con el número de saltos (ver README).
       - key: TRUST_PROXY
         value: "true"
       # Ajustar al nombre real del proyecto de Cloudflare Pages (incluye previews *.proyecto.pages.dev).
