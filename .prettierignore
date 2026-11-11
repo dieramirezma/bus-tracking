@@ -8,3 +8,5 @@ apps/api/data
 apps/api/test/fixtures
 apps/web/components/ui
 docs/architecture/*.html
+.impeccable
+apps/web/.impeccable

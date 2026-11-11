@@ -6,3 +6,8 @@ out
 .env
 .env.local
 scratch
+
+# Impeccable: artefactos de trabajo locales (bocetos, capturas, caché del hook)
+.impeccable/mocks/
+.impeccable/review/
+**/.impeccable/hook.cache.json
