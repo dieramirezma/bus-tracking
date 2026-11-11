@@ -1,0 +1,9 @@
+pnpm-lock.yaml
+**/dist
+**/out
+**/.next
+**/node_modules
+apps/web/public/data
+apps/api/data
+apps/api/test/fixtures
+apps/web/components/ui
