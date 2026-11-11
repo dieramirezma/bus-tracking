@@ -1,0 +1,17 @@
+{
+  "name": "@bus/gtfs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:data": "tsx src/build-trunk-data.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "unzipper": "^0.12.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/unzipper": "^0.10.10",
+    "tsx": "^4.19.0"
+  }
+}
