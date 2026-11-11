@@ -1,26 +1,18 @@
 "use client";
 
 import { useMemo } from "react";
-import type { ExpressionSpecification, LineLayerSpecification } from "maplibre-gl";
+import type { LineLayerSpecification } from "maplibre-gl";
 import { MapGeoJSON, useMap } from "@/components/ui/map";
-import { COLORS, type ShapesCollection } from "@/lib/transit";
+import { INK, type ShapesCollection } from "@/lib/transit";
 
 type LinePaint = NonNullable<LineLayerSpecification["paint"]>;
-
-const routeColorExpr: ExpressionSpecification = [
-  "match",
-  ["get", "color"],
-  "#00ff00",
-  COLORS.dual,
-  COLORS.troncal,
-];
 
 const EMPTY: ShapesCollection = { type: "FeatureCollection", features: [] };
 
 /**
- * Trazados troncales. Muchas rutas comparten corredor, así que la transparencia se acumula:
- * en vez de atenuar con opacidad, la red pasa a gris opaco y la ruta elegida se dibuja encima
- * en una segunda capa (siempre montada para conservar el orden de capas).
+ * Trazados troncales. Muchas rutas comparten corredor, así que la red se pinta opaca (la transparencia
+ * se acumularía) y la ruta elegida va encima en dos capas: borde de esmalte y núcleo de oro.
+ * Las tres capas están siempre montadas para conservar el orden de dibujo.
  */
 export function RouteShapes({
   shapes,
@@ -30,22 +22,35 @@ export function RouteShapes({
   selectedRouteId: string | null;
 }) {
   const { resolvedTheme } = useMap();
-  const muted = resolvedTheme === "dark" ? "#3f3f46" : "#cfcfcf";
+  const dark = resolvedTheme === "dark";
 
-  const basePaint = useMemo<LinePaint>(
+  const networkPaint = useMemo<LinePaint>(
     () => ({
-      "line-color": selectedRouteId ? muted : routeColorExpr,
-      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.2, 14, 3, 17, 5],
-      "line-opacity": selectedRouteId ? 1 : 0.75,
+      "line-color": selectedRouteId
+        ? dark
+          ? "#262d3a"
+          : "#cdd2da"
+        : dark
+          ? INK.networkDark
+          : INK.networkLight,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.2, 14, 2.6, 17, 4],
+      "line-opacity": 1,
     }),
-    [selectedRouteId, muted],
+    [selectedRouteId, dark],
   );
 
-  const selectedPaint = useMemo<LinePaint>(
+  const casingPaint = useMemo<LinePaint>(
     () => ({
-      "line-color": routeColorExpr,
-      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 2.5, 14, 5, 17, 8],
-      "line-opacity": 1,
+      "line-color": dark ? INK.darkGround : INK.enamel,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 5, 14, 9, 17, 13],
+    }),
+    [dark],
+  );
+
+  const corePaint = useMemo<LinePaint>(
+    () => ({
+      "line-color": INK.gold,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 2.4, 14, 4.5, 17, 7],
     }),
     [],
   );
@@ -61,13 +66,9 @@ export function RouteShapes({
 
   return (
     <>
-      <MapGeoJSON id="trunk-shapes" data={shapes} fillPaint={false} linePaint={basePaint} />
-      <MapGeoJSON
-        id="trunk-shapes-selected"
-        data={selectedShapes}
-        fillPaint={false}
-        linePaint={selectedPaint}
-      />
+      <MapGeoJSON id="network" data={shapes} fillPaint={false} linePaint={networkPaint} />
+      <MapGeoJSON id="route-casing" data={selectedShapes} fillPaint={false} linePaint={casingPaint} />
+      <MapGeoJSON id="route-core" data={selectedShapes} fillPaint={false} linePaint={corePaint} />
     </>
   );
 }

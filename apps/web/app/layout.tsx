@@ -1,29 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fira_Sans, Fira_Sans_Condensed } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
+// Fira Sans: humanista de herencia en señalética (FF Meta / Spiekermann); legible al sol y en pantallas pequeñas.
+const firaSans = Fira_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Condensada para rótulos de estación y etiquetas del diagrama.
+const firaCondensed = Fira_Sans_Condensed({
+  variable: "--font-condensed",
   subsets: ["latin"],
+  weight: ["500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "TransMilenio en vivo",
+  title: "bus-tracking · buses troncales de Bogotá en vivo",
   description:
-    "Posición en tiempo real de los buses troncales de TransMilenio en Bogotá, con rutas y estaciones. Datos abiertos GTFS Realtime de TRANSMILENIO S.A.",
+    "Posición en tiempo real de los buses troncales y duales de Bogotá, con sus rutas y estaciones. Proyecto independiente con datos abiertos GTFS Realtime de TRANSMILENIO S.A.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#13203a" },
+    { media: "(prefers-color-scheme: dark)", color: "#13203a" },
   ],
 };
 
@@ -34,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${firaSans.variable} ${firaCondensed.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

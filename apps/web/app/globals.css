@@ -134,15 +134,100 @@
     @apply hidden!;
   }
   .maplibregl-ctrl-attrib {
-    @apply bg-background! text-muted-foreground! border-border! rounded-md! border! shadow-sm!;
+    background: var(--enamel) !important;
+    color: var(--slateink) !important;
+    border: 1px solid var(--enamel-line) !important;
+    border-radius: 4px !important;
+    font-family: var(--font-sans);
+    font-size: 11px !important;
   }
   .maplibregl-ctrl-attrib a {
-    @apply text-muted-foreground!;
+    color: var(--slateink) !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .maplibregl-ctrl-attrib a:hover {
-    @apply text-foreground!;
+    color: var(--porcelain) !important;
   }
   .maplibregl-ctrl-attrib-button {
-    @apply bg-transparent! dark:invert;
+    background-color: transparent !important;
+    filter: invert(1);
   }
+}
+
+/* ── Mundo: diagrama de tránsito en esmalte ─────────────────────────────── */
+:root {
+  --enamel: #13203a; /* esmalte azul medianoche: carcasa en ambos modos */
+  --enamel-raised: #1c2c4c; /* fila activa / hover sobre esmalte */
+  --enamel-line: rgba(242, 243, 240, 0.16); /* filete de porcelana sobre esmalte */
+  --porcelain: #f2f3f0; /* texto y marcas de estación */
+  --slateink: #aab4c5; /* texto secundario sobre esmalte */
+  --gold: #d6a531; /* única tinta de línea: la ruta elegida */
+  --lamp-live: #8fd6b0; /* luces de estado (solo cuando significan algo) */
+  --lamp-degraded: #f0b45a;
+  --lamp-critical: #f08f80;
+}
+
+@theme inline {
+  --color-enamel: var(--enamel);
+  --color-enamel-raised: var(--enamel-raised);
+  --color-enamel-line: var(--enamel-line);
+  --color-porcelain: var(--porcelain);
+  --color-slateink: var(--slateink);
+  --color-gold: var(--gold);
+  --color-lamp-live: var(--lamp-live);
+  --color-lamp-degraded: var(--lamp-degraded);
+  --color-lamp-critical: var(--lamp-critical);
+  --font-condensed: var(--font-condensed);
+}
+
+/* Superficies del navegador, también del mundo */
+::selection {
+  background: var(--gold);
+  color: var(--enamel);
+}
+input {
+  caret-color: var(--gold);
+}
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.enamel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(242, 243, 240, 0.28) transparent;
+}
+.enamel-scroll::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.enamel-scroll::-webkit-scrollbar-thumb {
+  background: rgba(242, 243, 240, 0.28);
+  border-radius: 3px;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* La tira se mueve al mismo ritmo que los buses del mapa */
+.strip-bus {
+  transition: left 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .strip-bus {
+    transition: none;
+  }
+}
+
+/* En el celular el panel tapa la atribución del mapa; se muestra dentro del panel (RoutePanel). */
+@media (max-width: 767px) {
+  .maplibregl-ctrl-attrib {
+    display: none !important;
+  }
+}
+
+/* Placa de esmalte: filete de porcelana un poco hacia adentro del borde, como un rótulo esmaltado */
+.enamel-plate {
+  outline: 1px solid rgba(242, 243, 240, 0.2);
+  outline-offset: -5px;
 }
