@@ -1,0 +1,89 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-11T03:17:48.898Z",
+        "reason": "claude: tracking only on short uppercase form labels (RUTA, BUSES, ÚLTIMO REPORTE), the sanctioned use"
+      },
+      {
+        "rule": "overused-font",
+        "value": "roboto",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-11T03:17:49.194Z",
+        "reason": "claude: canon card deliberately reproduces the category standard (Google Maps uses Roboto)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-11T03:57:59.872Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand), never shipped"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-11T03:58:00.237Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand), never shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-11T12:17:53.196Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand) uses its own world's fonts; never shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-11T12:17:53.520Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand) uses its own world's fonts; never shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-wayfinding.html"
+        ],
+        "createdAt": "2026-11-11T12:17:53.819Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand) uses its own world's fonts; never shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-11T12:17:54.135Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand) uses its own world's fonts; never shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-crouwel.html"
+        ],
+        "createdAt": "2026-11-11T12:17:54.420Z",
+        "reason": "claude: unchosen decision-round sketch (spent hand) uses its own world's fonts; never shipped"
+      }
+    ]
+  }
+}

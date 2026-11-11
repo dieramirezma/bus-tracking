@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T00:00:00Z",
+  "title": "Design System: bus-tracking",
+  "extensions": {
+    "colorMeta": {
+      "gold": { "role": "primary", "displayName": "Oro ocre de línea", "canonical": "#d6a531", "tonalRamp": ["#3d2c08", "#6b4e10", "#9c7419", "#d6a531", "#e2bb5e", "#ebcf8b", "#f3e2b8", "#faf3e2"] },
+      "enamel": { "role": "neutral", "displayName": "Esmalte azul medianoche", "canonical": "#13203a", "tonalRamp": ["#0a1120", "#13203a", "#1c2c4c", "#2c4170", "#4a6194", "#7d8fb6", "#b7c2da", "#e6eaf3"] },
+      "enamel-raised": { "role": "neutral", "displayName": "Esmalte realzado", "canonical": "#1c2c4c", "tonalRamp": ["#0a1120", "#13203a", "#1c2c4c", "#2c4170", "#4a6194", "#7d8fb6", "#b7c2da", "#e6eaf3"] },
+      "enamel-line": { "role": "neutral", "displayName": "Filete de porcelana", "canonical": "rgba(242, 243, 240, 0.16)", "tonalRamp": ["rgba(242,243,240,0.06)", "rgba(242,243,240,0.10)", "rgba(242,243,240,0.16)", "rgba(242,243,240,0.20)", "rgba(242,243,240,0.28)", "rgba(242,243,240,0.40)", "rgba(242,243,240,0.60)", "rgba(242,243,240,0.85)"] },
+      "porcelain": { "role": "neutral", "displayName": "Porcelana", "canonical": "#f2f3f0", "tonalRamp": ["#2b2c29", "#50524c", "#7a7c75", "#a5a7a0", "#c9cbc5", "#e1e2de", "#f2f3f0", "#fbfbfa"] },
+      "slateink": { "role": "neutral", "displayName": "Pizarra clara", "canonical": "#aab4c5", "tonalRamp": ["#2a313d", "#434d5e", "#5f6b80", "#8d99ae", "#aab4c5", "#c4ccd8", "#dde2ea", "#f1f3f6"] },
+      "lamp-live": { "role": "tertiary", "displayName": "Luz en vivo", "canonical": "#8fd6b0", "tonalRamp": ["#123a26", "#1f5c3d", "#2f8259", "#55aa80", "#8fd6b0", "#b2e3c9", "#d3efe0", "#eef9f3"] },
+      "lamp-degraded": { "role": "tertiary", "displayName": "Luz degradada", "canonical": "#f0b45a", "tonalRamp": ["#3f2a07", "#6a470e", "#9a6816", "#c98c2c", "#f0b45a", "#f5ca8b", "#f9dfb8", "#fdf3e4"] },
+      "lamp-critical": { "role": "tertiary", "displayName": "Luz crítica", "canonical": "#f08f80", "tonalRamp": ["#43150f", "#6e2419", "#9d3a2b", "#cc5e4d", "#f08f80", "#f5b2a8", "#f9d2cc", "#fdeeeb"] },
+      "network-light": { "role": "neutral", "displayName": "Red en pizarra (claro)", "canonical": "#7d889c", "tonalRamp": ["#22262e", "#3a414e", "#565f70", "#7d889c", "#9aa3b3", "#b7bfcb", "#d3d8e0", "#eef0f3"] },
+      "network-dark": { "role": "neutral", "displayName": "Red en pizarra (oscuro)", "canonical": "#5d6b84", "tonalRamp": ["#1a1f28", "#2d3443", "#434e62", "#5d6b84", "#7d899f", "#a0a9ba", "#c4cad5", "#e8ebf0"] },
+      "network-muted-light": { "role": "neutral", "displayName": "Red atenuada (claro)", "canonical": "#cdd2da", "tonalRamp": ["#2a2e35", "#474d57", "#69707c", "#8d94a0", "#afb5bf", "#cdd2da", "#e1e4e9", "#f3f4f6"] },
+      "network-muted-dark": { "role": "neutral", "displayName": "Red atenuada (oscuro)", "canonical": "#262d3a", "tonalRamp": ["#11151c", "#1b212b", "#262d3a", "#3a4354", "#566072", "#7a8394", "#a6adba", "#dadee5"] },
+      "dark-ground": { "role": "neutral", "displayName": "Suelo oscuro", "canonical": "#0e1015", "tonalRamp": ["#0e1015", "#1a1d24", "#2a2e37", "#3f444f", "#5b616d", "#828894", "#b0b4bd", "#e2e4e8"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "El código de ruta en la insignia de oro. Solo ahí." },
+      "headline": { "displayName": "Headline", "purpose": "Destino de la ruta y título de la red." },
+      "title": { "displayName": "Title", "purpose": "Códigos de ruta en filas de lista y resultados del buscador." },
+      "input": { "displayName": "Input", "purpose": "Texto del campo de búsqueda; 16 px para evitar el zoom del celular." },
+      "body": { "displayName": "Body", "purpose": "Destinos en filas y conteos de la red." },
+      "body-sm": { "displayName": "Body small", "purpose": "Avisos, agencia y línea de estado de la ruta." },
+      "status": { "displayName": "Status", "purpose": "Línea de estado fija del panel, cifras tabulares." },
+      "label": { "displayName": "Label", "purpose": "Mayúsculas: encabezado de la lista de rutas con más buses y selector ES · EN." },
+      "station-label": { "displayName": "Station label", "purpose": "Rótulos de estación de la tira, mayúsculas a 45°, tope 132 px." },
+      "caption": { "displayName": "Caption", "purpose": "Atribución y nota de proyecto independiente." }
+    },
+    "shadows": [
+      { "name": "location-marker", "value": "0 1px 3px rgba(19,32,58,0.4)", "purpose": "Solo el disco «usted está aquí» sobre el mapa. Nunca en la carcasa." },
+      { "name": "enamel-plate-fillet", "value": "outline: 1px solid rgba(242, 243, 240, 0.2); outline-offset: -5px", "purpose": "No es sombra: filete interior de porcelana que da peso a buscador, panel y banda de la tira." }
+    ],
+    "motion": [
+      { "name": "bus-slide", "value": "1500ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Buses de la tira (y, con salida cúbica equivalente, del mapa) se deslizan hacia cada nueva lectura." },
+      { "name": "camera-fit", "value": "700–900ms", "purpose": "Encuadre de ruta (800), foco de bus (700), estación (800), ubicación (900)." },
+      { "name": "state-color", "value": "150ms (transition-colors)", "purpose": "Hover de filas, botones y selector." },
+      { "name": "reduced-motion", "value": "none", "purpose": "Con prefers-reduced-motion los buses saltan sin animación." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Buscador de ruta",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Placa de esmalte de 48 px con lupa, campo y selector ES · EN; la acción primaria de la pantalla.",
+      "html": "<div class=\"ds-search\"><svg class=\"ds-search-icon\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input class=\"ds-search-input\" placeholder=\"Ruta o destino\" aria-label=\"Buscar ruta\"><div class=\"ds-lang\" role=\"group\"><button class=\"ds-lang-opt ds-lang-on\" aria-pressed=\"true\">es</button><button class=\"ds-lang-opt\" aria-pressed=\"false\">en</button></div></div>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 6px 0 12px; background: var(--enamel, #13203a); color: var(--porcelain, #f2f3f0); border: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); border-radius: 4px; outline: 1px solid rgba(242,243,240,0.2); outline-offset: -5px; font-family: 'Fira Sans', sans-serif; } .ds-search-icon { color: var(--slateink, #aab4c5); flex-shrink: 0; } .ds-search-input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: inherit; font: 500 16px 'Fira Sans', sans-serif; caret-color: var(--gold, #d6a531); } .ds-search-input::placeholder { color: var(--slateink, #aab4c5); } .ds-lang { display: flex; height: 36px; border: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); border-radius: 3px; overflow: hidden; } .ds-lang-opt { width: 36px; background: transparent; border: 0; color: var(--slateink, #aab4c5); font: 600 13px 'Fira Sans Condensed', 'Fira Sans', sans-serif; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: color 150ms, background 150ms; } .ds-lang-opt:hover { color: var(--porcelain, #f2f3f0); } .ds-lang-on, .ds-lang-on:hover { background: var(--porcelain, #f2f3f0); color: var(--enamel, #13203a); } .ds-lang-opt:focus-visible { outline: 2px solid var(--gold, #d6a531); outline-offset: 2px; }"
+    },
+    {
+      "name": "Botones del mapa",
+      "kind": "button",
+      "refersTo": "map-button",
+      "description": "Zoom unido y ubicar separado, placas de esmalte de 40 px.",
+      "html": "<div class=\"ds-mapbtns\"><div class=\"ds-mapbtn-group\"><button class=\"ds-mapbtn\" aria-label=\"Acercar\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></button><button class=\"ds-mapbtn\" aria-label=\"Alejar\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><path d=\"M5 12h14\"/></svg></button></div><button class=\"ds-mapbtn ds-mapbtn-solo\" aria-label=\"Mi ubicación\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><line x1=\"2\" x2=\"5\" y1=\"12\" y2=\"12\"/><line x1=\"19\" x2=\"22\" y1=\"12\" y2=\"12\"/><line x1=\"12\" x2=\"12\" y1=\"2\" y2=\"5\"/><line x1=\"12\" x2=\"12\" y1=\"19\" y2=\"22\"/><circle cx=\"12\" cy=\"12\" r=\"7\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg></button></div>",
+      "css": ".ds-mapbtns { display: inline-flex; flex-direction: column; gap: 8px; } .ds-mapbtn-group { display: flex; flex-direction: column; border-radius: 4px; overflow: hidden; } .ds-mapbtn-group .ds-mapbtn:first-child { border-bottom: 0; } .ds-mapbtn { display: grid; place-items: center; width: 40px; height: 40px; background: var(--enamel, #13203a); color: var(--porcelain, #f2f3f0); border: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); cursor: pointer; transition: background 150ms; } .ds-mapbtn-solo { border-radius: 4px; } .ds-mapbtn:hover { background: var(--enamel-raised, #1c2c4c); } .ds-mapbtn:focus-visible { outline: 2px solid var(--gold, #d6a531); outline-offset: 2px; } .ds-mapbtn:disabled { opacity: 0.5; }"
+    },
+    {
+      "name": "Insignia de ruta",
+      "kind": "chip",
+      "refersTo": "route-badge",
+      "description": "Código de la ruta elegida en oro; la tinta solo aparece aquí, en el trazado, la tira y el bus enfocado.",
+      "html": "<div class=\"ds-routehead\"><span class=\"ds-badge\">G43</span><div><h2 class=\"ds-dest\">hacia Portal Usme</h2><p class=\"ds-agency\">Troncal</p></div></div>",
+      "css": ".ds-routehead { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: var(--enamel, #13203a); color: var(--porcelain, #f2f3f0); font-family: 'Fira Sans', sans-serif; } .ds-badge { flex-shrink: 0; background: var(--gold, #d6a531); color: var(--enamel, #13203a); border-radius: 3px; padding: 2px 10px; font: 600 26px/1.25 'Fira Sans Condensed', 'Fira Sans', sans-serif; letter-spacing: 0.025em; } .ds-dest { margin: 2px 0 0; font-size: 20px; font-weight: 600; line-height: 1.25; text-wrap: balance; } .ds-agency { margin: 2px 0 0; font-size: 14px; color: var(--slateink, #aab4c5); }"
+    },
+    {
+      "name": "Panel de red con línea de estado",
+      "kind": "card",
+      "refersTo": "panel-plate",
+      "description": "Placa de esmalte con línea de estado fija, título de la red y filas de las rutas con más buses.",
+      "html": "<section class=\"ds-panel\"><div class=\"ds-status\"><span class=\"ds-status-l\"><span class=\"ds-lamp\"></span>En vivo</span><span class=\"ds-tab ds-muted\">Actualizado 14:32</span></div><div class=\"ds-panel-body\"><h2 class=\"ds-h2\">Red troncal en vivo</h2><p class=\"ds-tab ds-muted ds-count\">412 buses en 98 rutas</p><h3 class=\"ds-label\">Rutas con más buses</h3><ul class=\"ds-rows\"><li><button class=\"ds-row\"><span class=\"ds-code\">B74</span><span class=\"ds-name\">Portal Norte / Calle 26</span><span class=\"ds-tab ds-muted\">14 buses</span></button></li><li><button class=\"ds-row\"><span class=\"ds-code\">G43</span><span class=\"ds-name\">Portal Usme</span><span class=\"ds-tab ds-muted\">12 buses</span></button></li></ul></div></section>",
+      "css": ".ds-panel { width: 380px; background: var(--enamel, #13203a); color: var(--porcelain, #f2f3f0); border-radius: 4px; outline: 1px solid rgba(242,243,240,0.2); outline-offset: -5px; font-family: 'Fira Sans', sans-serif; overflow: hidden; } .ds-status { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; font-size: 13px; border-bottom: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); } .ds-status-l { display: flex; align-items: center; gap: 8px; font-weight: 500; } .ds-lamp { width: 8px; height: 8px; border-radius: 9999px; background: var(--lamp-live, #8fd6b0); } .ds-tab { font-variant-numeric: tabular-nums; } .ds-muted { color: var(--slateink, #aab4c5); } .ds-panel-body { padding: 16px; } .ds-h2 { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.25; } .ds-count { margin: 4px 0 0; font-size: 15px; } .ds-label { margin: 20px 0 8px; font: 600 13px 'Fira Sans Condensed', 'Fira Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slateink, #aab4c5); } .ds-rows { list-style: none; margin: 0 -16px; padding: 0; border-top: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); } .ds-rows li { border-bottom: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); } .ds-row { display: grid; grid-template-columns: 4.25rem 1fr auto; align-items: baseline; gap: 12px; width: 100%; padding: 12px 16px; background: transparent; border: 0; color: inherit; text-align: left; cursor: pointer; font-size: 14px; transition: background 150ms; } .ds-row:hover { background: var(--enamel-raised, #1c2c4c); } .ds-row:focus-visible { outline: 2px solid var(--gold, #d6a531); outline-offset: 2px; } .ds-code { font: 600 18px 'Fira Sans Condensed', 'Fira Sans', sans-serif; letter-spacing: 0.025em; } .ds-name { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
+    },
+    {
+      "name": "Tira de la ruta",
+      "kind": "custom",
+      "refersTo": "pennant-troncal",
+      "description": "Firma: diagrama lineal con línea de oro, estaciones de porcelana, rótulos condensados a 45° y buses en banderín (troncal relleno, dual contorno, enfocado oro).",
+      "html": "<div class=\"ds-strip\"><div class=\"ds-strip-line\"></div><span class=\"ds-st ds-st-x\" style=\"left:28px\"></span><span class=\"ds-st-lb\" style=\"left:40px\">Portal Usme</span><span class=\"ds-st\" style=\"left:104px\"></span><span class=\"ds-st-lb\" style=\"left:116px\">Molinos</span><span class=\"ds-st ds-st-x\" style=\"left:180px\"></span><span class=\"ds-st-lb\" style=\"left:192px\">Av Jiménez</span><span class=\"ds-pn\" style=\"left:53px;top:20px\"></span><span class=\"ds-pn ds-pn-dual\" style=\"left:120px;top:0\"></span><span class=\"ds-pn ds-pn-focus\" style=\"left:140px;top:20px\">2</span></div>",
+      "css": ".ds-strip { position: relative; width: 240px; height: 150px; padding: 0; background: var(--enamel, #13203a); color: var(--porcelain, #f2f3f0); } .ds-strip-line { position: absolute; left: 28px; width: 152px; top: 54px; height: 4px; border-radius: 9999px; background: var(--gold, #d6a531); } .ds-st { position: absolute; top: 49px; width: 14px; height: 14px; margin-left: -7px; box-sizing: border-box; border-radius: 9999px; background: var(--porcelain, #f2f3f0); border: 3px solid var(--enamel, #13203a); } .ds-st-x { top: 47px; width: 18px; height: 18px; margin-left: -9px; outline: 2px solid var(--porcelain, #f2f3f0); } .ds-st-lb { position: absolute; top: 74px; max-width: 132px; transform: rotate(45deg); transform-origin: top left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: 500 12px 'Fira Sans Condensed', 'Fira Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(242,243,240,0.85); } .ds-pn { position: absolute; width: 26px; height: 16px; box-sizing: border-box; display: grid; place-items: center; border-radius: 3px; background: var(--porcelain, #f2f3f0); border: 1px solid var(--porcelain, #f2f3f0); color: var(--enamel, #13203a); font: 600 12px/1 'Fira Sans Condensed', 'Fira Sans', sans-serif; font-variant-numeric: tabular-nums; transition: left 1.5s cubic-bezier(0.16, 1, 0.3, 1); } .ds-pn::after { content: ''; position: absolute; right: -7px; top: 50%; transform: translateY(-50%); border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 6px solid var(--porcelain, #f2f3f0); } .ds-pn-dual { background: var(--enamel, #13203a); border-width: 2px; color: var(--porcelain, #f2f3f0); } .ds-pn-focus { background: var(--gold, #d6a531); border-color: var(--gold, #d6a531); color: var(--enamel, #13203a); } .ds-pn-focus::after { border-left-color: var(--gold, #d6a531); } @media (prefers-reduced-motion: reduce) { .ds-pn { transition: none; } }"
+    },
+    {
+      "name": "Chip de borde de la tira",
+      "kind": "chip",
+      "refersTo": "edge-chip",
+      "description": "Cuántos buses quedan fuera de vista hacia un lado de la tira; al tocarlo, desplaza.",
+      "html": "<button class=\"ds-edge\" aria-label=\"3 buses más adelante\">3<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></button>",
+      "css": ".ds-edge { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 6px; background: var(--enamel-raised, #1c2c4c); color: var(--porcelain, #f2f3f0); border: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); border-radius: 3px; font: 600 14px 'Fira Sans Condensed', 'Fira Sans', sans-serif; font-variant-numeric: tabular-nums; cursor: pointer; } .ds-edge:focus-visible { outline: 2px solid var(--gold, #d6a531); outline-offset: 2px; }"
+    },
+    {
+      "name": "Aviso de estado",
+      "kind": "custom",
+      "refersTo": "panel-plate",
+      "description": "Franja bajo la línea de estado, solo cuando hay algo que decir; icono teñido por la luz correspondiente.",
+      "html": "<div class=\"ds-notice\" role=\"alert\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"ds-notice-icon\"><path d=\"M5 22h14\"/><path d=\"M5 2h14\"/><path d=\"M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22\"/><path d=\"M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2\"/></svg><span>La primera carga puede tardar hasta un minuto.</span></div>",
+      "css": ".ds-notice { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; background: var(--enamel, #13203a); color: var(--porcelain, #f2f3f0); border-bottom: 1px solid var(--enamel-line, rgba(242,243,240,0.16)); font: 400 14px/1.375 'Fira Sans', sans-serif; } .ds-notice-icon { flex-shrink: 0; margin-top: 1px; color: var(--lamp-degraded, #f0b45a); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Diagrama de tránsito en esmalte",
+    "overview": "La interfaz es un rótulo esmaltado sobre la ciudad. La carcasa (buscador, panel, botones del mapa, banda de la tira) es esmalte azul medianoche con texto de porcelana y filetes finos, como una placa de señalética de andén; el mapa corre a sangre por debajo. La ruta elegida no se lee como una lista de datos sino como un diagrama: una tira lineal con sus estaciones en orden, rótulos a 45° y cada bus ubicado entre ellas. Es formal y sereno, nunca juguetón ni de dashboard.\n\nLa densidad es de andén: pocas cosas, grandes y legibles al sol, operables con un pulgar. Todo el color está quieto salvo una tinta, el oro, que solo existe para la ruta que el pasajero eligió. Troncal y dual se separan por forma, no por color, y la paleta se mantiene deliberadamente fuera del código cromático de TransMilenio: el proyecto es independiente y no oficial, y no debe parecer lo contrario.\n\nLa carcasa de esmalte es la misma en modo claro y oscuro. Solo cambian con el tema del sistema el mapa base de OpenFreeMap (positron / dark) y las tintas de las capas del mapa.",
+    "keyCharacteristics": [
+      "Carcasa de esmalte medianoche idéntica en ambos modos; el mapa base es lo único que cambia de tema.",
+      "Una sola tinta de línea, oro, reservada a la ruta elegida.",
+      "Troncal = relleno, dual = anillo o contorno; nunca solo color.",
+      "Firma: la tira de la ruta, con estaciones de porcelana, rótulos condensados a 45° y buses en banderín.",
+      "Plano: la profundidad viene del filete de porcelana hacia adentro, no de sombras.",
+      "Cifras tabulares en todo conteo y hora."
+    ],
+    "rules": [
+      { "name": "The Single Ink Rule", "body": "El oro es la ruta elegida y nada más. Ningún otro elemento puede usar oro: ni marcadores, ni alertas, ni decoración. El marcador de ubicación se cambió a porcelana y esmalte precisamente por esta regla. Las únicas excepciones son las superficies nativas del navegador que indican la elección del usuario (selección, cursor, foco).", "section": "colors" },
+      { "name": "The Shape Not Hue Rule", "body": "Troncal y dual se distinguen por forma: troncal relleno, dual en anillo o contorno de 2 px. Ningún tipo de bus o ruta se codifica solo con color.", "section": "colors" },
+      { "name": "The Independent Palette Rule", "body": "Las tintas de rutas y buses nunca usan el rojo troncal, verde, azul zonal ni naranja de TransMilenio. Las luces de estado son semánticas, viven solo como puntos de 8 px o iconos de 18 px dentro de la carcasa y nunca tiñen una ruta, un bus o una estación.", "section": "colors" },
+      { "name": "The Tabular Figures Rule", "body": "Toda cifra que cambia en vivo (conteos de buses, horas, antigüedad de reportes, contadores de banderín y chips) va en cifras tabulares para no bailar entre lecturas.", "section": "typography" },
+      { "name": "The Condensed Is Signage Rule", "body": "La condensada es para lo que se leería en un rótulo o un diagrama: códigos, estaciones, contadores. La prosa y los destinos van en Fira Sans normal.", "section": "typography" },
+      { "name": "The Inset Fillet Rule", "body": "Toda placa mayor de esmalte (buscador, panel, banda de la tira) lleva el filete interior de porcelana; ninguna lleva sombra.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do reservar `gold` a la ruta elegida: insignia, núcleo del trazado, línea de la tira y bus enfocado.",
+      "Do distinguir troncal y dual por forma (relleno frente a anillo o contorno de 2 px) en el mapa y en la tira.",
+      "Do mantener la carcasa en `enamel` en ambos modos y dejar que solo el mapa base y las tintas de capa cambien de tema.",
+      "Do usar `slateink` (7,8:1 sobre esmalte) para todo texto secundario; legibilidad al sol antes que sutileza.",
+      "Do dar a cada placa mayor de esmalte el filete interior de porcelana en lugar de sombra.",
+      "Do escribir toda cifra en vivo con cifras tabulares y mostrar la antigüedad del dato (atenuación 1 / 0,7 / 0,45 a 90 s y 180 s).",
+      "Do usar la condensada en mayúsculas espaciadas (0,08em) para rótulos de estación y etiquetas de lista."
+    ],
+    "donts": [
+      "Don't usar oro para nada que no sea la ruta elegida (marcadores, alertas, acentos, hover).",
+      "Don't codificar rutas o buses con el rojo, verde, azul o naranja de TransMilenio, ni con su logo o marca.",
+      "Don't distinguir troncal y dual solo por color.",
+      "Don't volver al arreglo por defecto de la categoría: píldora de búsqueda blanca flotante y hoja inferior gris con chips.",
+      "Don't usar las luces de estado fuera de la línea de estado y los avisos.",
+      "Don't dibujar la red con transparencia; se acumula en los corredores compartidos.",
+      "Don't añadir sombras a la carcasa."
+    ]
+  }
+}
