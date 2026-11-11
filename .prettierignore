@@ -7,3 +7,4 @@ apps/web/public/data
 apps/api/data
 apps/api/test/fixtures
 apps/web/components/ui
+docs/architecture/*.html

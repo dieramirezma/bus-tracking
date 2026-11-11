@@ -14,14 +14,16 @@ Mapa en vivo de los buses **troncales y duales** de TransMilenio (Bogotá), con 
 
 ## Arquitectura
 
-```
-gtfs.transmilenio.gov.co/positions.pb ──cada 30 s──► apps/api (Fastify, Render)
-                                                      decodifica → filtra troncales → calcula rumbo → caché
-                                                      GET /vehicles · GET /health
-Cloudflare Pages (apps/web) ──cada 15 s──► apps/api
-  trazados y estaciones: /data/*.geojson estáticos (generados por packages/gtfs)
-GitHub Action diaria: regenera los datos estáticos y hace commit → redeploy automático
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture/architecture-dark.png">
+  <img src="docs/architecture/architecture.png" width="960" alt="Diagrama de arquitectura: el API Fastify en Render consulta cada 30 s el feed GTFS Realtime de TransMilenio y entrega /vehicles al navegador cada 15 s; el navegador carga la web estática desde Cloudflare Pages y los tiles desde OpenFreeMap; una GitHub Action diaria descarga GTFS.zip, regenera los datos y redespliega el API y la web.">
+</picture>
+
+- **Datos en vivo:** el API descarga `positions.pb` cada 30 s, filtra los buses troncales y duales, calcula el rumbo y guarda el resultado en memoria; la web consulta `GET /vehicles` cada 15 s.
+- **Recursos estáticos:** Cloudflare Pages sirve la web y los GeoJSON de trazados y estaciones; OpenFreeMap sirve el mapa base.
+- **Build diario:** la GitHub Action regenera los datos desde `GTFS.zip` y, si cambian, hace commit; Render y Pages redespliegan solos.
+
+Fuente del diagrama: [`docs/architecture/`](docs/architecture/) (HTML editable, generado con diagram-design).
 
 ¿Por qué un backend? El feed no envía cabeceras CORS y responde con `Cross-Origin-Resource-Policy: same-origin`, así que el navegador no puede leerlo directamente. Además el API reduce ~180 KB de protobuf con 4.000+ vehículos a ~20 KB gzip con solo los troncales.
 
