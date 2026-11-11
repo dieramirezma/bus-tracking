@@ -30,9 +30,29 @@ export function parseTrustProxy(
     .filter(Boolean);
 }
 
+/**
+ * Clave del rate limit. Si CLIENT_IP_HEADER está definido (p. ej. "cf-connecting-ip" cuando hay
+ * Cloudflare delante, que sobrescribe ese header con la IP real del visitante) se usa ese header;
+ * si no viene, se usa la IP del request. Solo debe activarse detrás de un proxy que controle el header,
+ * porque si el cliente pudiera enviarlo directamente podría falsearlo.
+ */
+export function clientKey(
+  headers: Record<string, string | string[] | undefined>,
+  ip: string,
+  headerName: string | null,
+): string {
+  if (headerName) {
+    const raw = headers[headerName];
+    const value = (Array.isArray(raw) ? raw[0] : raw)?.trim();
+    if (value) return value;
+  }
+  return ip;
+}
+
 export const config = {
   port: Number(process.env.PORT ?? 3001),
   trustProxy: parseTrustProxy(process.env.TRUST_PROXY),
+  clientIpHeader: process.env.CLIENT_IP_HEADER?.trim().toLowerCase() || null,
   baseUrl: (process.env.TRANSMI_RT_BASE ?? "https://gtfs.transmilenio.gov.co").replace(/\/$/, ""),
   pollIntervalMs: Number(process.env.POLL_INTERVAL_MS ?? 30_000),
   corsOrigins: parseOrigins(process.env.CORS_ORIGIN ?? "http://localhost:3000"),

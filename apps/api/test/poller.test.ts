@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
-import { parseOrigins, parseTrustProxy } from "../src/config.js";
+import { clientKey, parseOrigins, parseTrustProxy } from "../src/config.js";
 import { bearingBetween, decodeVehicles } from "../src/poller.js";
 import routesData from "../data/routes.json" with { type: "json" };
 
@@ -56,6 +56,18 @@ describe("bearingBetween", () => {
   it("norte ≈ 0° y este ≈ 90°", () => {
     expect(Math.round(bearingBetween(4, -74, 4.01, -74))).toBe(0);
     expect(Math.round(bearingBetween(4, -74, 4, -73.99))).toBe(90);
+  });
+});
+
+describe("clientKey", () => {
+  const headers = { "cf-connecting-ip": "190.0.0.1", "x-forwarded-for": "1.2.3.4" };
+  it("usa el header configurado cuando viene", () => {
+    expect(clientKey(headers, "10.0.0.1", "cf-connecting-ip")).toBe("190.0.0.1");
+  });
+  it("vuelve a la IP del request si no hay header configurado o no viene", () => {
+    expect(clientKey(headers, "10.0.0.1", null)).toBe("10.0.0.1");
+    expect(clientKey({}, "10.0.0.1", "cf-connecting-ip")).toBe("10.0.0.1");
+    expect(clientKey({ "cf-connecting-ip": "  " }, "10.0.0.1", "cf-connecting-ip")).toBe("10.0.0.1");
   });
 });
 

@@ -2,13 +2,17 @@ import Fastify from "fastify";
 import compress from "@fastify/compress";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
-import { config } from "./config.js";
+import { clientKey, config } from "./config.js";
 import { Poller } from "./poller.js";
 
 const app = Fastify({ logger: true, trustProxy: config.trustProxy });
 await app.register(compress, { global: true });
 await app.register(cors, { origin: config.corsOrigins, methods: ["GET"] });
-await app.register(rateLimit, { max: 120, timeWindow: "1 minute" });
+await app.register(rateLimit, {
+  max: 120,
+  timeWindow: "1 minute",
+  keyGenerator: (req) => clientKey(req.headers, req.ip, config.clientIpHeader),
+});
 
 const poller = new Poller({ baseUrl: config.baseUrl, intervalMs: config.pollIntervalMs, log: app.log });
 
