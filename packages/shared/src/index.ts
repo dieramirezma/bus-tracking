@@ -28,6 +28,8 @@ export interface TrunkRoute {
   longName: string;
   color: string;
   agency: "troncal" | "dual";
+  /** IDs de estación (stations.geojson) en el orden del recorrido, de origen a destino. */
+  stations: string[];
 }
 
 export type TrunkRouteMap = Record<string, TrunkRoute>;

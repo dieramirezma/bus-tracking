@@ -123,7 +123,7 @@ async function main() {
   // 1. routes
   const routes = new Map<
     string,
-    { id: string; shortName: string; longName: string; color: string; agency: string }
+    { id: string; shortName: string; longName: string; color: string; agency: string; stations: string[] }
   >();
   // route_id de todas las rutas no troncales: el API los usa para distinguir
   // "no troncal conocido" de "desconocido" (señal de que el GTFS quedó desactualizado).
@@ -139,6 +139,7 @@ async function main() {
       longName: r.route_long_name,
       color: `#${r.route_color || "ff0000"}`,
       agency: r.agency_id === "6" ? "dual" : "troncal",
+      stations: [],
     });
   }
   console.log(`Rutas troncales/duales: ${routes.size}`);
@@ -146,9 +147,12 @@ async function main() {
   // 2. trips -> shapes por ruta, y set de trips troncales
   const tripToRoute = new Map<string, string>();
   const shapeRoutes = new Map<string, Set<string>>();
+  const routeTrips = new Map<string, { tripId: string; shapeId: string }[]>();
   for await (const t of rows(zip, "trips.txt")) {
     if (!routes.has(t.route_id)) continue;
     tripToRoute.set(t.trip_id, t.route_id);
+    if (!routeTrips.has(t.route_id)) routeTrips.set(t.route_id, []);
+    routeTrips.get(t.route_id)!.push({ tripId: t.trip_id, shapeId: t.shape_id });
     if (t.shape_id) {
       if (!shapeRoutes.has(t.shape_id)) shapeRoutes.set(t.shape_id, new Set());
       shapeRoutes.get(t.shape_id)!.add(t.route_id);
@@ -180,12 +184,29 @@ async function main() {
       };
     });
 
+  // Viaje representativo por ruta: el primero que recorre su trazado más largo.
+  // Sus paradas, en orden, dan la secuencia de estaciones de la ruta (la tira del front).
+  const repTripRoute = new Map<string, string>();
+  for (const [routeId, trips] of routeTrips) {
+    let best: { tripId: string; shapeId: string } | null = null;
+    for (const t of trips) {
+      if (!best || (pts.get(t.shapeId)?.length ?? 0) > (pts.get(best.shapeId)?.length ?? 0)) best = t;
+    }
+    if (best) repTripRoute.set(best.tripId, routeId);
+  }
+  const repStops = new Map<string, { seq: number; stopId: string }[]>();
+
   // 4. stop_times (578 MB) -> stops usados por rutas troncales
   const usedStops = new Set<string>();
   const stopRoutes = new Map<string, Set<string>>();
   for await (const st of rows(zip, "stop_times.txt")) {
     const routeId = tripToRoute.get(st.trip_id);
     if (!routeId) continue;
+    const repRoute = repTripRoute.get(st.trip_id);
+    if (repRoute) {
+      if (!repStops.has(repRoute)) repStops.set(repRoute, []);
+      repStops.get(repRoute)!.push({ seq: Number(st.stop_sequence), stopId: st.stop_id });
+    }
     usedStops.add(st.stop_id);
     if (!stopRoutes.has(st.stop_id)) stopRoutes.set(st.stop_id, new Set());
     stopRoutes.get(st.stop_id)!.add(routeId);
@@ -220,6 +241,22 @@ async function main() {
       coordinates: [Math.round(s.lon * 1e5) / 1e5, Math.round(s.lat * 1e5) / 1e5],
     },
   }));
+
+  // Secuencia de estaciones por ruta (solo estaciones troncales, sin repetir consecutivas).
+  for (const [routeId, list] of repStops) {
+    list.sort((a, b) => a.seq - b.seq);
+    const seq: string[] = [];
+    for (const { stopId } of list) {
+      const s = stops.get(stopId);
+      if (!s) continue;
+      const parent = s.parent_station && stops.get(s.parent_station) ? stops.get(s.parent_station)! : s;
+      if (parent.location_type !== "1" || !stations.has(parent.stop_id)) continue;
+      if (seq[seq.length - 1] !== parent.stop_id) seq.push(parent.stop_id);
+    }
+    routes.get(routeId)!.stations = seq;
+  }
+  const withStrip = [...routes.values()].filter((r) => r.stations.length >= 2).length;
+  console.log(`Rutas con secuencia de estaciones: ${withStrip}/${routes.size}`);
 
   // 6. escribir
   const routeMap = Object.fromEntries(routes);
